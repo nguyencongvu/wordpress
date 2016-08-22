@@ -87,9 +87,6 @@ if (file_exists('dtoken.php')) {
 /* ==============================================================================================
 ADVANCED FEATURES - Allows admins to perform aditional logic on the import.
 
-$GLOBALS['TABLES_SKIP_COLS']
-	Add Known column names of tables you don't want the search and replace logic to run on.
-
 $GLOBALS['REPLACE_LIST']
 	Add additional search and replace items to step 2 for the serialize engine.  
 	Place directly below $GLOBALS['REPLACE_LIST'] variable below your items
@@ -99,33 +96,33 @@ $GLOBALS['REPLACE_LIST']
   ================================================================================================= */
 
 //COMPARE VALUES
-$GLOBALS['FW_CREATED']		= '2016-06-27 14:23:41';
-$GLOBALS['FW_VERSION_DUP']	= '1.1.12';
-$GLOBALS['FW_VERSION_WP']	= '4.5.3';
-$GLOBALS['FW_VERSION_DB']	= '5.5.45';
+$GLOBALS['FW_CREATED']		= '2016-08-21 16:03:29';
+$GLOBALS['FW_VERSION_DUP']	= '1.1.16';
+$GLOBALS['FW_VERSION_WP']	= '4.6';
+$GLOBALS['FW_VERSION_DB']	= '5.5.50';
 $GLOBALS['FW_VERSION_PHP']	= '5.4.40';
 $GLOBALS['FW_VERSION_OS']	= 'Linux';
 //GENERAL
 $GLOBALS['FW_TABLEPREFIX'] = 'wp_';
-$GLOBALS['FW_URL_OLD'] = 'https://ktb-opw3.rhcloud.com';
+$GLOBALS['FW_URL_OLD'] = 'http://wordpress-minhvu21.rhcloud.com';
 $GLOBALS['FW_URL_NEW'] = '';
-$GLOBALS['FW_PACKAGE_NAME'] = '20160627_ktblogisticscoltd_577136ed8c52e4407160627142341_archive.zip';
+$GLOBALS['FW_PACKAGE_NAME'] = '20160817_seotemplates_57b9d0d1252196183160821160329_archive.zip';
 $GLOBALS['FW_PACKAGE_NOTES'] = '';
-$GLOBALS['FW_SECURE_NAME'] = '20160627_ktblogisticscoltd_577136ed8c52e4407160627142341';
+$GLOBALS['FW_SECURE_NAME'] = '20160817_seotemplates_57b9d0d1252196183160821160329';
 $GLOBALS['FW_DBHOST'] = '';
 $GLOBALS['FW_DBHOST'] = empty($GLOBALS['FW_DBHOST']) ? 'localhost' : $GLOBALS['FW_DBHOST'];
 $GLOBALS['FW_DBPORT'] = '';
 $GLOBALS['FW_DBPORT'] = empty($GLOBALS['FW_DBPORT']) ? 3306 : $GLOBALS['FW_DBPORT'];
-$GLOBALS['FW_DBNAME'] = 'ktb';
-$GLOBALS['FW_DBUSER'] = 'adminUDqEA3e';
+$GLOBALS['FW_DBNAME'] = '';
+$GLOBALS['FW_DBUSER'] = '';
 $GLOBALS['FW_DBPASS'] = '';
 $GLOBALS['FW_SSL_ADMIN'] = 0;
 $GLOBALS['FW_SSL_LOGIN'] = 0;
 $GLOBALS['FW_CACHE_WP'] = 0;
 $GLOBALS['FW_CACHE_PATH'] = 0;
-$GLOBALS['FW_BLOGNAME'] = 'KTB Logistics Co., Ltd';
-$GLOBALS['FW_WPROOT'] = '/var/lib/openshift/574e428d2d52715fed00016e/app-root/data/current/';
-$GLOBALS['FW_DUPLICATOR_VERSION'] = '1.1.12';
+$GLOBALS['FW_BLOGNAME'] = 'SEO templates';
+$GLOBALS['FW_WPROOT'] = '/var/lib/openshift/57b433fd2d5271a277000078/app-root/data/current/';
+$GLOBALS['FW_DUPLICATOR_VERSION'] = '1.1.16';
 $GLOBALS['FW_OPTS_DELETE'] = json_decode('["duplicator_ui_view_state","duplicator_package_active","duplicator_settings"]', true);
 
 //DATABASE SETUP: all time in seconds	
@@ -134,7 +131,7 @@ $GLOBALS['DB_MAX_PACKETS'] = 268435456;
 ini_set('mysql.connect_timeout', '5000');
 
 //PHP SETUP: all time in seconds
-ini_set('memory_limit', '5000M');
+ini_set('memory_limit', '2048M');
 ini_set("max_execution_time", '5000');
 ini_set("max_input_time", '5000');
 ini_set('default_socket_timeout', '5000');
@@ -144,7 +141,6 @@ $GLOBALS['DBCHARSET_DEFAULT'] = 'utf8';
 $GLOBALS['DBCOLLATE_DEFAULT'] = 'utf8_general_ci';
 
 //UPDATE TABLE SETTINGS
-$GLOBALS['TABLES_SKIP_COLS'] = array('');
 $GLOBALS['REPLACE_LIST'] = array();
 
 
@@ -194,8 +190,7 @@ if ($_POST['action_step'] == 1) {
 <?php
 // Exit if accessed directly
 if (! defined('DUPLICATOR_INIT')) {
-	$_baseURL =  strlen($_SERVER['SERVER_NAME']) ? $_SERVER['SERVER_NAME'] : $_SERVER['HTTP_HOST'];
-	$_baseURL =  "http://" . $_baseURL;
+	$_baseURL = "http://" . strlen($_SERVER['SERVER_NAME']) ? $_SERVER['SERVER_NAME'] : $_SERVER['HTTP_HOST'];
 	header("HTTP/1.1 301 Moved Permanently");
 	header("Location: $_baseURL");
 	exit; 
@@ -206,7 +201,7 @@ define('ERR_ZIPNOTFOUND',		'The packaged zip file was not found. Be sure the zip
 define('ERR_ZIPOPEN',			'Failed to open zip archive file. Please be sure the archive is completely downloaded before running the installer. Try to extract the archive manually to make sure the file is not corrupted.');
 define('ERR_ZIPEXTRACTION',		'Errors extracting zip file.  Portions or part of the zip archive did not extract correctly.    Try to extract the archive manually with a client side program like unzip/win-zip/winrar to make sure the file is not corrupted.  If the file extracts correctly then there is an invalid file or directory that PHP is unable to extract.  This can happen if your moving from one operating system to another where certain naming conventions work on one environment and not another. <br/><br/> Workarounds: <br/> 1. Create a new package and be sure to exclude any directories that have invalid names or files in them.   This warning will be displayed on the scan results under "Invalid Names". <br/> 2. Manually extract the zip file with a client side program.  Then under advanced options in step 1 of the installer check the "Manual package extraction" option and perform the install.');
 define('ERR_ZIPMANUAL',			'When choosing manual package extraction, the contents of the package must already be extracted and the wp-config.php and database.sql files must be present in the same directory as the installer.php for the process to continue.  Please manually extract the package into the current directory before continuing in manual extraction mode.  Also validate that the wp-config.php and database.sql files are present.');
-define('ERR_MAKELOG',			'PHP is having issues writing to the log file <b>' . DupUtil::set_safe_path($GLOBALS['CURRENT_ROOT_PATH']) . '\installer-log.txt .</b> In order for the Duplicator to proceed validate your owner/group and permission settings for PHP on this path. Try temporarily setting you permissions to 777 to see if the issue gets resolved.  If you are on a shared hosting environment please contact your hosting company and tell them you are getting errors writing files to the path above when using PHP.');
+define('ERR_MAKELOG',			'PHP is having issues writing to the log file <b>' . DUPX_Util::set_safe_path($GLOBALS['CURRENT_ROOT_PATH']) . '\installer-log.txt .</b> In order for the Duplicator to proceed validate your owner/group and permission settings for PHP on this path. Try temporarily setting you permissions to 777 to see if the issue gets resolved.  If you are on a shared hosting environment please contact your hosting company and tell them you are getting errors writing files to the path above when using PHP.');
 define('ERR_ZIPARCHIVE',		'In order to extract the archive.zip file the PHP ZipArchive module must be installed.  Please read the FAQ for more details.  You can still install this package but you will need to check the Manual package extraction checkbox found in the Advanced Options.  Please read the online user guide for details in performing a manual package extraction.');
 define('ERR_MYSQLI_SUPPORT',	'In order to complete an install the mysqli extension for PHP is required. If you are on a hosted server please contact your host and request that mysqli be enabled.  For more information visit: http://php.net/manual/en/mysqli.installation.php');
 define('ERR_DBCONNECT',			'DATABASE CONNECTION FAILED!<br/>');
@@ -250,17 +245,15 @@ class DUPX_Log {
 <?php
 // Exit if accessed directly
 if (! defined('DUPLICATOR_INIT')) {
-	$_baseURL =  strlen($_SERVER['SERVER_NAME']) ? $_SERVER['SERVER_NAME'] : $_SERVER['HTTP_HOST'];
-	$_baseURL =  "http://" . $_baseURL;
+	$_baseURL = "http://" . strlen($_SERVER['SERVER_NAME']) ? $_SERVER['SERVER_NAME'] : $_SERVER['HTTP_HOST'];
 	header("HTTP/1.1 301 Moved Permanently");
 	header("Location: $_baseURL");
 	exit; 
 }
 
 /** * *****************************************************
- *  CLASS::DupUtil
  *  Various Static Utility methods for working with the installer */
-class DupUtil 
+class DUPX_Util 
 {
 
     /** 
@@ -602,20 +595,114 @@ class DupUtil
 ?>
 
 <?php
+// Exit if accessed directly
+if (!defined('DUPLICATOR_INIT')) {
+	$_baseURL = "http://" . strlen($_SERVER['SERVER_NAME']) ? $_SERVER['SERVER_NAME'] : $_SERVER['HTTP_HOST'];
+	header("HTTP/1.1 301 Moved Permanently");
+	header("Location: {$_baseURL}");
+	exit;
+}
+
+/** 
+ * Class used to update and edit web server configuration files
+ * for both Apache and IIS files .htaccess and web.config  */
+class DUPX_WPConfig
+{
+	/** 
+	 * Updates the web server config files in Step 1  */
+    public static function UpdateStep1() 
+	{
+		$root_path	= DUPX_Util::set_safe_path($GLOBALS['CURRENT_ROOT_PATH']);
+		$wpconfig   = @file_get_contents('wp-config.php', true);
+
+		$patterns = array(
+			"/'DB_NAME',\s*'.*?'/",
+			"/'DB_USER',\s*'.*?'/",
+			"/'DB_PASSWORD',\s*'.*?'/",
+			"/'DB_HOST',\s*'.*?'/");
+
+		$db_host = ($_POST['dbport'] == 3306) ? $_POST['dbhost'] : "{$_POST['dbhost']}:{$_POST['dbport']}";
+
+		$replace = array(
+			"'DB_NAME', "	  . '\'' . $_POST['dbname']				. '\'',
+			"'DB_USER', "	  . '\'' . $_POST['dbuser']				. '\'',
+			"'DB_PASSWORD', " . '\'' . DUPX_Util::preg_replacement_quote($_POST['dbpass']) . '\'',
+			"'DB_HOST', "	  . '\'' . $db_host				. '\'');
+
+		//SSL CHECKS
+		if ($_POST['ssl_admin']) {
+			if (! strstr($wpconfig, 'FORCE_SSL_ADMIN')) {
+				$wpconfig = $wpconfig . PHP_EOL . "define('FORCE_SSL_ADMIN', true);";
+			}
+		} else {
+			array_push($patterns, "/'FORCE_SSL_ADMIN',\s*true/");
+			array_push($replace,  "'FORCE_SSL_ADMIN', false");
+		}
+
+		if ($_POST['ssl_login']) {
+			if (! strstr($wpconfig, 'FORCE_SSL_LOGIN')) {
+				$wpconfig = $wpconfig . PHP_EOL . "define('FORCE_SSL_LOGIN', true);";
+			}
+		} else {
+			array_push($patterns, "/'FORCE_SSL_LOGIN',\s*true/");
+			array_push($replace, "'FORCE_SSL_LOGIN', false");
+		}
+
+		//CACHE CHECKS
+		if ($_POST['cache_wp']) {
+			if (! strstr($wpconfig, 'WP_CACHE')) {
+				$wpconfig = $wpconfig . PHP_EOL . "define('WP_CACHE', true);";
+			}
+		} else {
+			array_push($patterns, "/'WP_CACHE',\s*true/");
+			array_push($replace,  "'WP_CACHE', false");
+		}
+		if (! $_POST['cache_path']) {
+			array_push($patterns, "/'WPCACHEHOME',\s*'.*?'/");
+			array_push($replace,  "'WPCACHEHOME', ''");
+		}
+
+		if (! is_writable("{$root_path}/wp-config.php") ) 
+		{
+			if (file_exists("{$root_path}/wp-config.php")) 
+			{
+				chmod("{$root_path}/wp-config.php", 0644)
+					? DUPX_Log::Info('File Permission Update: wp-config.php set to 0644')
+					: DUPX_Log::Info('WARNING: Unable to update file permissions and write to wp-config.php.  Please visit the online FAQ for setting file permissions and work with your hosting provider or server administrator to enable this installer.php script to write to the wp-config.php file.');
+			} else {
+				DUPX_Log::Info('WARNING: Unable to locate wp-config.php file.  Be sure the file is present in your archive.');
+			}
+		}
+
+
+		$wpconfig = preg_replace($patterns, $replace, $wpconfig);
+		file_put_contents('wp-config.php', $wpconfig);
+		$wpconfig = null;
+	}
+	
+	/** 
+	 * Updates the web server config files in Step 2 */
+    public static function UpdateStep2() 
+	{
+		//Placeholder step 2 logic
+	}
+	
+}
+?>
+
+<?php
 // Exit if accessed directly 
 if (! defined('DUPLICATOR_INIT')) {
-	$_baseURL =  strlen($_SERVER['SERVER_NAME']) ? $_SERVER['SERVER_NAME'] : $_SERVER['HTTP_HOST'];
-	$_baseURL =  "http://" . $_baseURL;
+	$_baseURL = "http://" . strlen($_SERVER['SERVER_NAME']) ? $_SERVER['SERVER_NAME'] : $_SERVER['HTTP_HOST'];
 	header("HTTP/1.1 301 Moved Permanently");
 	header("Location: $_baseURL");
 	exit; 
 }
 
 /** * *****************************************************
- * DUPX_Config 
  * Class used to update and edit web server configuration files  */
 
-class DUPX_Config {
+class DUPX_ServerConfig {
 	
 
     /** 
@@ -628,20 +715,24 @@ class DUPX_Config {
 		//Apache
 		@copy('.htaccess', '.htaccess.orig');
 		@unlink('.htaccess');
+		
 		//IIS
 		@copy('web.config', 'web.config.orig');
 		@unlink('web.config');
 
+		//.user.ini - For WordFence
+		@copy('.user.ini', '.user.ini.orig');
+		@unlink('.user.ini');
+		
 		DUPX_Log::Info("- Backup of .htaccess/web.config made to .orig");
 		DUPX_Log::Info("- Reset of .htaccess/web.config files");
 		$tmp_htaccess = '# RESET FOR DUPLICATOR INSTALLER USEAGE';
 		file_put_contents('.htaccess', $tmp_htaccess);
-		@chmod('.htaccess', 0644);
-    }
-	
-	
-	    /** METHOD: ResetHTACCESS
-     *  Resetst the .htaccess file
+		@chmod('.htaccess', 0644);    		
+	}		
+		
+	/** METHOD: ResetHTACCESS
+     *  Resets the .htaccess file
      */
     static public function Setup() {
 		
@@ -652,8 +743,8 @@ class DUPX_Config {
 		DUPX_Log::Info("\nWEB SERVER CONFIGURATION FILE BASIC SETUP:");
 		$currdata = parse_url($_POST['url_old']);
 		$newdata  = parse_url($_POST['url_new']);
-		$currpath = DupUtil::add_slash(isset($currdata['path']) ? $currdata['path'] : "");
-		$newpath  = DupUtil::add_slash(isset($newdata['path'])  ? $newdata['path'] : "");
+		$currpath = DUPX_Util::add_slash(isset($currdata['path']) ? $currdata['path'] : "");
+		$newpath  = DUPX_Util::add_slash(isset($newdata['path'])  ? $newdata['path'] : "");
 
 		$tmp_htaccess = <<<HTACCESS
 # BEGIN WordPress
@@ -681,24 +772,24 @@ HTACCESS;
 
 <?php
 // Exit if accessed directly
-if (! defined('DUPLICATOR_INIT')) {
-	$_baseURL =  strlen($_SERVER['SERVER_NAME']) ? $_SERVER['SERVER_NAME'] : $_SERVER['HTTP_HOST'];
-	$_baseURL =  "http://" . $_baseURL;
+if (!defined('DUPLICATOR_INIT')) {
+	$_baseURL = "http://" . strlen($_SERVER['SERVER_NAME']) ? $_SERVER['SERVER_NAME'] : $_SERVER['HTTP_HOST'];
 	header("HTTP/1.1 301 Moved Permanently");
-	header("Location: $_baseURL");
-	exit; 
+	header("Location: {$_baseURL}");
+	exit;
 }
 
 /** * *****************************************************
- * CLASS::DUPX_Serializer
+ * CLASS::DUPX_UpdateEngine
  * Walks every table in db that then walks every row and column replacing searches with replaces
  * large tables are split into 50k row blocks to save on memory. */
-class DUPX_Serializer {
-
+class DUPX_UpdateEngine 
+{
 	/**
 	 * LOG ERRORS
 	 */
-	static public function log_errors($report) {
+	public static function log_errors($report) 
+	{
 		if (!empty($report['errsql'])) {
 			DUPX_Log::Info("====================================");
 			DUPX_Log::Info("DATA-REPLACE ERRORS (MySQL)");
@@ -725,7 +816,9 @@ class DUPX_Serializer {
 		}
 	}
 
-
+	/**
+	 * LOG STATS
+	 */
 	public static function log_stats($report) 
 	{
 		if (!empty($report) && is_array($report)) 
@@ -743,12 +836,12 @@ class DUPX_Serializer {
 			DUPX_Log::Info($stats);
 		}
 	}
-
+	
 	/**
 	 * Returns only the text type columns of a table ignoring all numeric types
 	 */
-	static public function getTextColumns($conn, $table) {
-	
+	public static function getTextColumns($conn, $table) 
+	{
 		$type_where  = "type NOT LIKE 'tinyint%' AND ";
 		$type_where .= "type NOT LIKE 'smallint%' AND ";
 		$type_where .= "type NOT LIKE 'mediumint%' AND ";
@@ -774,7 +867,8 @@ class DUPX_Serializer {
 		} 
 		
 		//Return Primary which is needed for index lookup
-		$result = mysqli_query($conn, "SHOW INDEX FROM `{$table}` WHERE KEY_NAME LIKE '%PRIMARY%'");
+		//$result = mysqli_query($conn, "SHOW INDEX FROM `{$table}` WHERE KEY_NAME LIKE '%PRIMARY%'"); 1.1.15 updated
+		$result = mysqli_query($conn, "SHOW INDEX FROM `{$table}`");
 		if (mysqli_num_rows($result) > 0) { 
 			while ($row = mysqli_fetch_assoc($result)) { 
 				$fields[] = $row['Column_name']; 
@@ -787,26 +881,38 @@ class DUPX_Serializer {
 	/**
 	 * LOAD
 	 * Begins the processing for replace logic
-	 * @param mysql  $conn 		 The db connection object
-	 * @param array  $list       Key value pair of 'search' and 'replace' arrays
-	 * @param array  $tables     The tables we want to look at.
+	 * @param mysql  $conn			The db connection object
+	 * @param array  $list			Key value pair of 'search' and 'replace' arrays
+	 * @param array  $tables		The tables we want to look at
+	 * @param array  $fullsearch    Search every column reguardless of its data type
 	 * @return array Collection of information gathered during the run.
 	 */
-	static public function load($conn, $list = array(), $tables = array(), $cols = array(), $fullsearch = false) {
-		$exclude_cols = $cols;
-
-		$report = array('scan_tables' => 0, 'scan_rows' => 0, 'scan_cells' => 0,
-			'updt_tables' => 0, 'updt_rows' => 0, 'updt_cells' => 0,
-			'errsql' => array(), 'errser' => array(), 'errkey' => array(),
-			'errsql_sum' => 0, 'errser_sum' => 0, 'errkey_sum' => 0,
-			'time' => '', 'err_all' => 0);
+	public static function load($conn, $list = array(), $tables = array(), $fullsearch = false) 
+	{
+		$report = array(
+			'scan_tables' => 0, 
+			'scan_rows' => 0, 
+			'scan_cells' => 0,
+			'updt_tables' => 0, 
+			'updt_rows' => 0, 
+			'updt_cells' => 0,
+			'errsql' => array(), 
+			'errser' => array(), 
+			'errkey' => array(),
+			'errsql_sum' => 0, 
+			'errser_sum' => 0, 
+			'errkey_sum' => 0,
+			'time' => '', 
+			'err_all' => 0
+		);
 		
 		$walk_function = create_function('&$str', '$str = "`$str`";');
 
-		$profile_start = DupUtil::get_microtime();
+		$profile_start = DUPX_Util::get_microtime();
 		if (is_array($tables) && !empty($tables)) {
 			
-			foreach ($tables as $table) {
+			foreach ($tables as $table) 
+			{
 				$report['scan_tables']++;
 				$columns = array();
 
@@ -834,7 +940,8 @@ class DUPX_Serializer {
 				// they are the only data types that should allow any type of search/replace logic
 				$colList = '*';
 				$colMsg  = '*';
-				if (! $fullsearch) {
+				if (! $fullsearch) 
+				{
 					$colList = self::getTextColumns($conn, $table);
 					if ($colList != null && is_array($colList)) {
 						array_walk($colList, $walk_function);
@@ -843,16 +950,19 @@ class DUPX_Serializer {
 					$colMsg = (empty($colList)) ? '*' : '~';
 				}
 				
-				if (empty($colList)) {
+				if (empty($colList)) 
+				{
 					DUPX_Log::Info("{$table}^ ({$row_count})");
 					continue;
-				} else {
+				} 
+				else 
+				{
 					DUPX_Log::Info("{$table}{$colMsg} ({$row_count})");
 				}
 
 				//Paged Records
-				for ($page = 0; $page < $pages; $page++) {
-
+				for ($page = 0; $page < $pages; $page++) 
+				{
 					$current_row = 0;
 					$start = $page * $page_size;
 					$end   = $start + $page_size;
@@ -863,13 +973,11 @@ class DUPX_Serializer {
 						$report['errsql'][] = mysqli_error($conn);
 					
 					$scan_count = ($row_count < $end) ? $row_count : $end;
-					
-					//CUSTOM DEBUG ONLY:
-					//DUPX_Log::Info("\tScan => {$start} of {$scan_count}", 3);
-					//DUPX_Log::Info("\t{$sql}", 3);
+					DUPX_Log::Info("\tScan => {$start} of {$scan_count}", 2);
 
 					//Loops every row
-					while ($row = mysqli_fetch_array($data)) {
+					while ($row = mysqli_fetch_array($data)) 
+					{
 						$report['scan_rows']++;
 						$current_row++;
 						$upd_col = array();
@@ -879,23 +987,22 @@ class DUPX_Serializer {
 						$serial_err = 0;
 
 						//Loops every cell
-						foreach ($columns as $column => $primary_key) {
-							if (in_array($column, $exclude_cols)) {
-								continue;
-							}
-
+						foreach ($columns as $column => $primary_key) 
+						{
 							$report['scan_cells']++;
 							$edited_data = $data_to_fix = $row[$column];
 							$base64coverted = false;
 							$txt_found = false;
 
 							//Only replacing string values
-							if (!empty($row[$column]) && !is_numeric($row[$column])) {
-
+							if (!empty($row[$column]) && !is_numeric($row[$column])) 
+							{
 								//Base 64 detection
-								if (base64_decode($row[$column], true)) {
+								if (base64_decode($row[$column], true)) 
+								{
 									$decoded = base64_decode($row[$column], true);
-									if (self::is_serialized($decoded)) {
+									if (self::is_serialized($decoded)) 
+									{
 										$edited_data = $decoded;
 										$base64coverted = true;
 									}
@@ -913,22 +1020,26 @@ class DUPX_Serializer {
 									continue;
 								}
 
-								//Replace logic - level 1: simple check on basic serilized strings
+								//Replace logic - level 1: simple check on any string or serlized strings
 								foreach ($list as $item) {
 									$edited_data = self::recursive_unserialize_replace($item['search'], $item['replace'], $edited_data);
 								}
 
-								//Replace logic - level 2: repair larger/complex serilized strings
+								//Replace logic - level 2: repair serilized strings that have become broken
 								$serial_check = self::fix_serial_string($edited_data);
-								if ($serial_check['fixed']) {
+								if ($serial_check['fixed']) 
+								{
 									$edited_data = $serial_check['data'];
-								} elseif ($serial_check['tried'] && !$serial_check['fixed']) {
+								} 
+								elseif ($serial_check['tried'] && !$serial_check['fixed']) 
+								{
 									$serial_err++;
 								}
 							}
 
 							//Change was made
-							if ($edited_data != $data_to_fix || $serial_err > 0) {
+							if ($edited_data != $data_to_fix || $serial_err > 0) 
+							{
 								$report['updt_cells']++;
 								//Base 64 encode
 								if ($base64coverted) {
@@ -945,11 +1056,12 @@ class DUPX_Serializer {
 						}
 
 						//PERFORM ROW UPDATE
-						if ($upd && !empty($where_sql)) {
+						if ($upd && !empty($where_sql)) 
+						{
 							$sql = "UPDATE `{$table}` SET " . implode(', ', $upd_sql) . ' WHERE ' . implode(' AND ', array_filter($where_sql));
 							$result = mysqli_query($conn, $sql) or $report['errsql'][] = mysqli_error($conn);
 							//DEBUG ONLY:
-							DUPX_Log::Info("\t{$sql}\n\n", 3);
+							DUPX_Log::Info("\t{$sql}\n", 3);
 							if ($result) {
 								if ($serial_err > 0) {
 									$report['errser'][] = "SELECT " . implode(', ', $upd_col) . " FROM `{$table}`  WHERE " . implode(' AND ', array_filter($where_sql)) . ';';
@@ -960,7 +1072,7 @@ class DUPX_Serializer {
 							$report['errkey'][] = sprintf("Row [%s] on Table [%s] requires a manual update.", $current_row, $table);
 						}
 					}
-					DupUtil::fcgi_flush();
+					DUPX_Util::fcgi_flush();
 					@mysqli_free_result($data);
 				}
 
@@ -969,8 +1081,8 @@ class DUPX_Serializer {
 				}
 			}
 		}
-		$profile_end = DupUtil::get_microtime();
-		$report['time'] = DupUtil::elapsed_time($profile_end, $profile_start);
+		$profile_end = DUPX_Util::get_microtime();
+		$report['time'] = DUPX_Util::elapsed_time($profile_end, $profile_start);
 		$report['errsql_sum'] = empty($report['errsql']) ? 0 : count($report['errsql']);
 		$report['errser_sum'] = empty($report['errser']) ? 0 : count($report['errser']);
 		$report['errkey_sum'] = empty($report['errkey']) ? 0 : count($report['errkey']);
@@ -987,29 +1099,60 @@ class DUPX_Serializer {
 	 * @param bool   $serialised Does the array passed via $data need serialising.
 	 * @return array	The original array with all elements replaced as needed. 
 	 */
-	static private function recursive_unserialize_replace($from = '', $to = '', $data = '', $serialised = false) {
-
+	public static function recursive_unserialize_replace($from = '', $to = '', $data = '', $serialised = false) 
+	{
 		// some unseriliased data cannot be re-serialised eg. SimpleXMLElements
-		try {
-
-			if (is_string($data) && ($unserialized = @unserialize($data)) !== false) {
+		try 
+		{
+			if (is_string($data) && ($unserialized = @unserialize($data)) !== false) 
+			{
 				$data = self::recursive_unserialize_replace($from, $to, $unserialized, true);
-			} elseif (is_array($data)) {
+			} 
+			elseif (is_array($data)) 
+			{
 				$_tmp = array();
-				foreach ($data as $key => $value) {
+				foreach ($data as $key => $value) 
+				{
 					$_tmp[$key] = self::recursive_unserialize_replace($from, $to, $value, false);
 				}
 				$data = $_tmp;
 				unset($_tmp);
-			} elseif (is_object($data)) {
+				
+				/* CJL
+					Check for an update to the key of an array e.g.   [http://localhost/projects/wpplugins/] => 1.41
+					This could have unintended consequences would need to enable with full-search needs more testing
+				if (array_key_exists($from, $data)) 
+				{
+					$data[$to] = $data[$from];
+					unset($data[$from]);
+				}*/				
+				
+			} 
+			elseif (is_object($data)) 
+			{
+				/* RSR Old logic that didn't work with Beaver Builder - they didn't want to create a brand new 
+				object instead reused the existing one... 
 				$dataClass = get_class($data);
 				$_tmp = new $dataClass();
 				foreach ($data as $key => $value) {
 					$_tmp->$key = self::recursive_unserialize_replace($from, $to, $value, false);
 				}
 				$data = $_tmp;
+				unset($_tmp);*/
+				
+				// RSR NEW LOGIC
+				$_tmp = $data; 
+				$props = get_object_vars( $data );
+				foreach ($props as $key => $value) 
+				{
+					$_tmp->$key = self::recursive_unserialize_replace( $from, $to, $value, false );
+				}
+				$data = $_tmp;
 				unset($_tmp);
-			} else {
+			} 
+
+			else 
+			{
 				if (is_string($data)) {
 					$data = str_replace($from, $to, $data);
 				}
@@ -1017,7 +1160,10 @@ class DUPX_Serializer {
 
 			if ($serialised)
 				return serialize($data);
-		} catch (Exception $error) {
+			
+		} 
+		catch (Exception $error) 
+		{
 			DUPX_Log::Info("\nRECURSIVE UNSERIALIZE ERROR: With string\n" . $error, 2);
 		}
 		return $data;
@@ -1026,7 +1172,8 @@ class DUPX_Serializer {
 	/**
 	 *  IS_SERIALIZED
 	 *  Test if a string in properly serialized */
-	static public function is_serialized($data) {
+	public static function is_serialized($data) 
+	{
 		$test = @unserialize(($data));
 		return ($test !== false || $test === 'b:0;') ? true : false;
 	}
@@ -1037,23 +1184,28 @@ class DUPX_Serializer {
 	 *  @param string $data	The string ojbect to recalculate the size on.
 	 *  @return 
 	 */
-	static private function fix_serial_string($data) {
-
+	public static function fix_serial_string($data) 
+	{
 		$result = array('data' => $data, 'fixed' => false, 'tried' => false);
-
-		if (preg_match("/s:[0-9]+:/", $data)) {
-			if (!self::is_serialized($data)) {
+		if (preg_match("/s:[0-9]+:/", $data)) 
+		{
+			if (!self::is_serialized($data)) 
+			{
 				$regex = '!(?<=^|;)s:(\d+)(?=:"(.*?)";(?:}|a:|s:|b:|d:|i:|o:|N;))!s';
 				$serial_string = preg_match('/^s:[0-9]+:"(.*$)/s', trim($data), $matches);
 				//Nested serial string
-				if ($serial_string) {
-					$inner = preg_replace_callback($regex, 'DUPX_Serializer::fix_string_callback', rtrim($matches[1], '";'));
+				if ($serial_string) 
+				{
+					$inner = preg_replace_callback($regex, 'DUPX_UpdateEngine::fix_string_callback', rtrim($matches[1], '";'));
 					$serialized_fixed = 's:' . strlen($inner) . ':"' . $inner . '";';
-				} else {
-					$serialized_fixed = preg_replace_callback($regex, 'DUPX_Serializer::fix_string_callback', $data);
+				} 
+				else 
+				{
+					$serialized_fixed = preg_replace_callback($regex, 'DUPX_UpdateEngine::fix_string_callback', $data);
 				}
-
-				if (self::is_serialized($serialized_fixed)) {
+				
+				if (self::is_serialized($serialized_fixed)) 
+				{
 					$result['data'] = $serialized_fixed;
 					$result['fixed'] = true;
 				}
@@ -1063,7 +1215,8 @@ class DUPX_Serializer {
 		return $result;
 	}
 
-	static private function fix_string_callback($matches) {
+	private static function fix_string_callback($matches) 
+	{
 		return 's:' . strlen(($matches[2]));
 	}
 
@@ -1077,8 +1230,7 @@ if (isset($_POST['action_ajax'])) {
             ?> <?php
 // Exit if accessed directly
 if (! defined('DUPLICATOR_INIT')) {
-	$_baseURL =  strlen($_SERVER['SERVER_NAME']) ? $_SERVER['SERVER_NAME'] : $_SERVER['HTTP_HOST'];
-	$_baseURL =  "http://" . $_baseURL;
+	$_baseURL = "http://" . strlen($_SERVER['SERVER_NAME']) ? $_SERVER['SERVER_NAME'] : $_SERVER['HTTP_HOST'];
 	header("HTTP/1.1 301 Moved Permanently");
 	header("Location: $_baseURL");
 	exit;
@@ -1100,10 +1252,10 @@ unset($POST_LOG['dbpass']);
 ksort($POST_LOG);
 
 //PAGE VARS
-$root_path		= DupUtil::set_safe_path($GLOBALS['CURRENT_ROOT_PATH']);
+$root_path		= DUPX_Util::set_safe_path($GLOBALS['CURRENT_ROOT_PATH']);
 $package_path	= "{$root_path}/{$_POST['package_name']}";
 $package_size	= @filesize($package_path);
-$ajax1_start	= DupUtil::get_microtime();
+$ajax1_start	= DUPX_Util::get_microtime();
 $zip_support	= class_exists('ZipArchive') ? 'Enabled' : 'Not Enabled';
 $JSON = array();
 $JSON['pass'] = 0;
@@ -1113,14 +1265,14 @@ cause errors in the JSON data Here we hide the status so warning level is reset 
 $ajax1_error_level = error_reporting();
 error_reporting(E_ERROR);
 
-//===============================
+//====================================================================================================
 //DATABASE TEST CONNECTION
-//===============================
+//====================================================================================================
 if (isset($_GET['dbtest'])) 
 {
 	$html     = "";
 	$baseport =  parse_url($_POST['dbhost'], PHP_URL_PORT);
-	$dbConn   = DupUtil::db_connect($_POST['dbhost'], $_POST['dbuser'], $_POST['dbpass'], null, $_POST['dbport']);
+	$dbConn   = DUPX_Util::db_connect($_POST['dbhost'], $_POST['dbuser'], $_POST['dbpass'], null, $_POST['dbport']);
 	$dbErr	  = mysqli_connect_error();
 
 	$dbFound  = mysqli_select_db($dbConn, $_POST['dbname']);
@@ -1129,10 +1281,11 @@ if (isset($_GET['dbtest']))
 	$tstSrv   = ($dbConn)  ? "<div class='dup-pass'>Success</div>" : "<div class='dup-fail'>Fail</div>";
 	$tstDB    = ($dbFound) ? "<div class='dup-pass'>Success</div>" : "<div class='dup-fail'>Fail</div>";
 	
-	$dbvar_version = DupUtil::mysql_version($dbConn);
+	$dbvar_version = DUPX_Util::mysql_version($dbConn);
+	$dbvar_version = ($dbvar_version == 0) ? 'no connection' : $dbvar_version;
 	$dbvar_version_fail = version_compare($dbvar_version, $GLOBALS['FW_VERSION_DB']) < 0;
 	$tstCompat = ($dbvar_version_fail)
-		? "<div class='dup-fail'>This Server: [{$dbvar_version}] -- Package Server: [{$GLOBALS['FW_VERSION_DB']}]</div>" 
+		? "<div class='dup-notice'>This Server: [{$dbvar_version}] -- Package Server: [{$GLOBALS['FW_VERSION_DB']}]</div>" 
 		: "<div class='dup-pass'>This Server: [{$dbvar_version}] -- Package Server: [{$GLOBALS['FW_VERSION_DB']}]</div>";
 	
 	$html	 .= <<<DATA
@@ -1161,7 +1314,7 @@ DATA;
 	//WARNING: DB has tables with create option
 	if ($_POST['dbaction'] == 'create')
 	{
-		$tblcount = DupUtil::dbtable_count($dbConn, $_POST['dbname']);
+		$tblcount = DUPX_Util::dbtable_count($dbConn, $_POST['dbname']);
 		$html .= ($tblcount > 0) 
 			? "<div class='warn-msg'><b>WARNING:</b> " . sprintf(ERR_DBEMPTY, $_POST['dbname'], $tblcount) . "</div>"
 			: '';
@@ -1172,7 +1325,7 @@ DATA;
 	$dbUTF8_tst  = false;
 	foreach ($dbConnItems as $value)
 	{
-		if (DupUtil::is_non_ascii($value)) {
+		if (DUPX_Util::is_non_ascii($value)) {
 			$dbUTF8_tst = true;
 			break;
 		}
@@ -1200,7 +1353,7 @@ DATA;
 function_exists('mysqli_connect') or DUPX_Log::Error(ERR_MYSQLI_SUPPORT);
 
 //ERR_DBCONNECT
-$dbh = DupUtil::db_connect($_POST['dbhost'], $_POST['dbuser'], $_POST['dbpass'], null, $_POST['dbport']);
+$dbh = DUPX_Util::db_connect($_POST['dbhost'], $_POST['dbuser'], $_POST['dbpass'], null, $_POST['dbport']);
 @mysqli_query($dbh, "SET wait_timeout = {$GLOBALS['DB_MAX_TIME']}");
 ($dbh) or DUPX_Log::Error(ERR_DBCONNECT . mysqli_connect_error());
 if ($_POST['dbaction'] == 'empty') {
@@ -1208,7 +1361,7 @@ if ($_POST['dbaction'] == 'empty') {
 }
 //ERR_DBEMPTY
 if ($_POST['dbaction'] == 'create' ) {
-	$tblcount = DupUtil::dbtable_count($dbh, $_POST['dbname']);
+	$tblcount = DUPX_Util::dbtable_count($dbh, $_POST['dbname']);
 	if ($tblcount > 0) {
 		DUPX_Log::Error(sprintf(ERR_DBEMPTY, $_POST['dbname'], $tblcount));
 	}
@@ -1256,11 +1409,11 @@ $log  = "\n*********************************************************************
 $log .= "ARCHIVE SETUP\n";
 $log .= "********************************************************************************\n";
 $log .= "NAME:\t{$_POST['package_name']}\n";
-$log .= "SIZE:\t" . DupUtil::readable_bytesize(@filesize($_POST['package_name'])) . "\n";
+$log .= "SIZE:\t" . DUPX_Util::readable_bytesize(@filesize($_POST['package_name'])) . "\n";
 $log .= "ZIP:\t{$zip_support} (ZipArchive Support)";
 DUPX_Log::Info($log);
 
-$zip_start = DupUtil::get_microtime();
+$zip_start = DUPX_Util::get_microtime();
 
 if ($_POST['zip_manual']) {
 	DUPX_Log::Info("\n** PACKAGE EXTRACTION IS IN MANUAL MODE ** \n");
@@ -1296,84 +1449,20 @@ if ($_POST['zip_manual']) {
 	$zip = null;
 }
 
-//===============================
-//WP-CONFIG: wp-config
-//===============================
-$wpconfig = @file_get_contents('wp-config.php', true);
-
-$patterns = array(
-	"/'DB_NAME',\s*'.*?'/",
-	"/'DB_USER',\s*'.*?'/",
-	"/'DB_PASSWORD',\s*'.*?'/",
-	"/'DB_HOST',\s*'.*?'/");
-
-$db_host = ($_POST['dbport'] == 3306) ? $_POST['dbhost'] : "{$_POST['dbhost']}:{$_POST['dbport']}";
-
-$replace = array(
-	"'DB_NAME', "	  . '\'' . $_POST['dbname']				. '\'',
-	"'DB_USER', "	  . '\'' . $_POST['dbuser']				. '\'',
-	"'DB_PASSWORD', " . '\'' . DupUtil::preg_replacement_quote($_POST['dbpass']) . '\'',
-	"'DB_HOST', "	  . '\'' . $db_host				. '\'');
-
-//SSL CHECKS
-if ($_POST['ssl_admin']) {
-	if (! strstr($wpconfig, 'FORCE_SSL_ADMIN')) {
-		$wpconfig = $wpconfig . PHP_EOL . "define('FORCE_SSL_ADMIN', true);";
-	}
-} else {
-	array_push($patterns, "/'FORCE_SSL_ADMIN',\s*true/");
-	array_push($replace,  "'FORCE_SSL_ADMIN', false");
-}
-
-if ($_POST['ssl_login']) {
-	if (! strstr($wpconfig, 'FORCE_SSL_LOGIN')) {
-		$wpconfig = $wpconfig . PHP_EOL . "define('FORCE_SSL_LOGIN', true);";
-	}
-} else {
-	array_push($patterns, "/'FORCE_SSL_LOGIN',\s*true/");
-	array_push($replace, "'FORCE_SSL_LOGIN', false");
-}
-
-//CACHE CHECKS
-if ($_POST['cache_wp']) {
-	if (! strstr($wpconfig, 'WP_CACHE')) {
-		$wpconfig = $wpconfig . PHP_EOL . "define('WP_CACHE', true);";
-	}
-} else {
-	array_push($patterns, "/'WP_CACHE',\s*true/");
-	array_push($replace,  "'WP_CACHE', false");
-}
-if (! $_POST['cache_path']) {
-	array_push($patterns, "/'WPCACHEHOME',\s*'.*?'/");
-	array_push($replace,  "'WPCACHEHOME', ''");
-}
-
-if (! is_writable("{$root_path}/wp-config.php") ) 
-{
-	if (file_exists("{$root_path}/wp-config.php")) 
-	{
-		chmod("{$root_path}/wp-config.php", 0644)
-			? DUPX_Log::Info('File Permission Update: wp-config.php set to 0644')
-			: DUPX_Log::Info('WARNING: Unable to update file permissions and write to wp-config.php.  Please visit the online FAQ for setting file permissions and work with your hosting provider or server administrator to enable this installer.php script to write to the wp-config.php file.');
-	} else {
-		DUPX_Log::Info('WARNING: Unable to locate wp-config.php file.  Be sure the file is present in your archive.');
-	}
-}
-
-
-$wpconfig = preg_replace($patterns, $replace, $wpconfig);
-file_put_contents('wp-config.php', $wpconfig);
-$wpconfig = null;
 
 //CONFIG FILE RESETS
-DUPX_Config::Reset();
+DUPX_WPConfig::UpdateStep1();
+DUPX_ServerConfig::Reset();
 
 
-//===============================
-//DATABASE SCRIPT
-//===============================
+//====================================================================================================
+//DATABASE ROUTINES
+//====================================================================================================
 @chmod("{$root_path}/database.sql", 0777);
-$sql_file = @file_get_contents('database.sql', true);
+if (filesize("{$root_path}/database.sql") > 100000000) {
+	DUPX_Log::Info("\nWARNING: Database Script is larger than 100MB this may lead to PHP memory allocation issues on some budget hosts.");
+}
+$sql_file = file_get_contents('database.sql', true);
 if ($sql_file == false || strlen($sql_file) < 10) {
 	$sql_file = file_get_contents('installer-data.sql', true);
 	if ($sql_file == false || strlen($sql_file) < 10) {
@@ -1404,26 +1493,23 @@ if (!is_readable($sql_result_file_path) || filesize($sql_result_file_path) == 0)
 DUPX_Log::Info("\nUPDATED FILES:");
 DUPX_Log::Info("- SQL FILE:  '{$sql_result_file_path}'");
 DUPX_Log::Info("- WP-CONFIG: '{$root_path}/wp-config.php'");
-$zip_end = DupUtil::get_microtime();
-DUPX_Log::Info("\nARCHIVE RUNTIME: " . DupUtil::elapsed_time($zip_end, $zip_start));
+$zip_end = DUPX_Util::get_microtime();
+DUPX_Log::Info("\nARCHIVE RUNTIME: " . DUPX_Util::elapsed_time($zip_end, $zip_start));
 DUPX_Log::Info("\n");
-DupUtil::fcgi_flush();
+DUPX_Util::fcgi_flush();
 
-
-//====================================================================================================
-//DATABASE ROUTINES
-//====================================================================================================
-
+//=================================
+//START DB RUN
 @mysqli_query($dbh, "SET wait_timeout = {$GLOBALS['DB_MAX_TIME']}");
 @mysqli_query($dbh, "SET max_allowed_packet = {$GLOBALS['DB_MAX_PACKETS']}");
-DupUtil::mysql_set_charset($dbh, $_POST['dbcharset'], $_POST['dbcollate']);
+DUPX_Util::mysql_set_charset($dbh, $_POST['dbcharset'], $_POST['dbcollate']);
 
 //Set defaults incase the variable could not be read
-$dbvar_maxtime = DupUtil::mysql_variable_value($dbh, 'wait_timeout');
-$dbvar_maxpacks = DupUtil::mysql_variable_value($dbh, 'max_allowed_packet');
+$dbvar_maxtime = DUPX_Util::mysql_variable_value($dbh, 'wait_timeout');
+$dbvar_maxpacks = DUPX_Util::mysql_variable_value($dbh, 'max_allowed_packet');
 $dbvar_maxtime = is_null($dbvar_maxtime) ? 300 : $dbvar_maxtime;
 $dbvar_maxpacks = is_null($dbvar_maxpacks) ? 1048576 : $dbvar_maxpacks;
-$dbvar_version = DupUtil::mysql_version($dbh);
+$dbvar_version = DUPX_Util::mysql_version($dbh);
 
 
 DUPX_Log::Info("{$GLOBALS['SEPERATOR1']}");
@@ -1470,7 +1556,7 @@ switch ($_POST['dbaction']) {
 DUPX_Log::Info("--------------------------------------");
 DUPX_Log::Info("DATABASE RESULTS");
 DUPX_Log::Info("--------------------------------------");
-$profile_start = DupUtil::get_microtime();
+$profile_start = DUPX_Util::get_microtime();
 $fcgi_buffer_pool = 5000;
 $fcgi_buffer_count = 0;
 $dbquery_rows = 0;
@@ -1492,10 +1578,10 @@ while ($counter < $sql_result_file_length) {
 
 			if (!mysqli_ping($dbh)) {
 				mysqli_close($dbh);
-				$dbh = DupUtil::db_connect($_POST['dbhost'], $_POST['dbuser'], $_POST['dbpass'], $_POST['dbname'], $_POST['dbport'] );
+				$dbh = DUPX_Util::db_connect($_POST['dbhost'], $_POST['dbuser'], $_POST['dbpass'], $_POST['dbname'], $_POST['dbport'] );
 				// Reset session setup
 				@mysqli_query($dbh, "SET wait_timeout = {$GLOBALS['DB_MAX_TIME']}");
-				DupUtil::mysql_set_charset($dbh, $_POST['dbcharset'], $_POST['dbcollate']);
+				DUPX_Util::mysql_set_charset($dbh, $_POST['dbcharset'], $_POST['dbcollate']);
 			}
 			DUPX_Log::Info("**ERROR** database error write '{$err}' - [sql=" . substr($sql_result_file_data[$counter], 0, 75) . "...]");
 			$dbquery_errs++;
@@ -1504,7 +1590,7 @@ while ($counter < $sql_result_file_length) {
 		} else {
 			if ($fcgi_buffer_count++ > $fcgi_buffer_pool) {
 				$fcgi_buffer_count = 0;
-				DupUtil::fcgi_flush();
+				DUPX_Util::fcgi_flush();
 			}
 			$dbquery_rows++;
 		}
@@ -1521,7 +1607,7 @@ DUPX_Log::Info("QUERIES RAN:\t{$dbquery_rows}\n");
 $dbtable_count = 0;
 if ($result = mysqli_query($dbh, "SHOW TABLES")) {
 	while ($row = mysqli_fetch_array($result, MYSQLI_NUM)) {
-		$table_rows = DupUtil::table_row_count($dbh, $row[0]);
+		$table_rows = DUPX_Util::table_row_count($dbh, $row[0]);
 		$dbtable_rows += $table_rows;
 		DUPX_Log::Info("{$row[0]}: ({$table_rows})");
 		$dbtable_count++;
@@ -1552,12 +1638,12 @@ foreach ($GLOBALS['FW_OPTS_DELETE'] as $value) {
 
 @mysqli_close($dbh);
 
-$profile_end = DupUtil::get_microtime();
-DUPX_Log::Info("\nSECTION RUNTIME: " . DupUtil::elapsed_time($profile_end, $profile_start));
+$profile_end = DUPX_Util::get_microtime();
+DUPX_Log::Info("\nSECTION RUNTIME: " . DUPX_Util::elapsed_time($profile_end, $profile_start));
 
 //FINAL RESULTS
-$ajax1_end = DupUtil::get_microtime();
-$ajax1_sum = DupUtil::elapsed_time($ajax1_end, $ajax1_start);
+$ajax1_end = DUPX_Util::get_microtime();
+$ajax1_sum = DUPX_Util::elapsed_time($ajax1_end, $ajax1_start);
 DUPX_Log::Info("\n{$GLOBALS['SEPERATOR1']}");
 DUPX_Log::Info('STEP1 COMPLETE @ ' . @date('h:i:s') . " - TOTAL RUNTIME: {$ajax1_sum}");
 DUPX_Log::Info("{$GLOBALS['SEPERATOR1']}");
@@ -1574,8 +1660,7 @@ die('');
             ?> <?php
 // Exit if accessed directly
 if (! defined('DUPLICATOR_INIT')) {
-	$_baseURL =  strlen($_SERVER['SERVER_NAME']) ? $_SERVER['SERVER_NAME'] : $_SERVER['HTTP_HOST'];
-	$_baseURL =  "http://" . $_baseURL;
+	$_baseURL = "http://" . strlen($_SERVER['SERVER_NAME']) ? $_SERVER['SERVER_NAME'] : $_SERVER['HTTP_HOST'];
 	header("HTTP/1.1 301 Moved Permanently");
 	header("Location: $_baseURL");
 	exit; 
@@ -1590,13 +1675,13 @@ error_reporting(E_ERROR);
 //DATABASE UPDATES
 //====================================================================================================
 
-$ajax2_start = DupUtil::get_microtime();
+$ajax2_start = DUPX_Util::get_microtime();
 
 //MYSQL CONNECTION
-$dbh = DupUtil::db_connect($_POST['dbhost'], $_POST['dbuser'], html_entity_decode($_POST['dbpass']), $_POST['dbname'], $_POST['dbport']);
+$dbh = DUPX_Util::db_connect($_POST['dbhost'], $_POST['dbuser'], html_entity_decode($_POST['dbpass']), $_POST['dbname'], $_POST['dbport']);
 $charset_server = @mysqli_character_set_name($dbh);
 @mysqli_query($dbh, "SET wait_timeout = {$GLOBALS['DB_MAX_TIME']}");
-DupUtil::mysql_set_charset($dbh, $_POST['dbcharset'], $_POST['dbcollate']);
+DUPX_Util::mysql_set_charset($dbh, $_POST['dbcharset'], $_POST['dbcollate']);
 
 //POST PARAMS
 $_POST['blogname'] = mysqli_real_escape_string($dbh, $_POST['blogname']);
@@ -1669,17 +1754,23 @@ $path_old_json = str_replace('"', "", json_encode($_POST['path_old']));
 $path_new_json = str_replace('"', "", json_encode($_POST['path_new']));
 
 array_push($GLOBALS['REPLACE_LIST'], 
-		array('search' => $_POST['url_old'],  'replace' => $_POST['url_new']), 
-		array('search' => $_POST['path_old'], 'replace' => $_POST['path_new']), 
-		array('search' => $url_old_json,	  'replace' => $url_new_json), 
-		array('search' => $path_old_json,	  'replace' => $path_new_json), 	
+		array('search' => $_POST['url_old'],			 'replace' => $_POST['url_new']), 
+		array('search' => $_POST['path_old'],			 'replace' => $_POST['path_new']), 
+		array('search' => $url_old_json,				 'replace' => $url_new_json), 
+		array('search' => $path_old_json,				 'replace' => $path_new_json), 	
 		array('search' => urlencode($_POST['path_old']), 'replace' => urlencode($_POST['path_new'])), 
 		array('search' => urlencode($_POST['url_old']),  'replace' => urlencode($_POST['url_new'])),
-		array('search' => rtrim(DupUtil::unset_safe_path($_POST['path_old']), '\\'), 'replace' => rtrim($_POST['path_new'], '/'))
+		array('search' => rtrim(DUPX_Util::unset_safe_path($_POST['path_old']), '\\'), 'replace' => rtrim($_POST['path_new'], '/'))
 );
 
+//Remove trailing slashes
+function _dupx_array_rtrim(&$value) {
+    $value = rtrim($value, '\/');
+}
+array_walk_recursive($GLOBALS['REPLACE_LIST'], _dupx_array_rtrim);
+
 @mysqli_autocommit($dbh, false);
-$report = DUPX_Serializer::load($dbh, $GLOBALS['REPLACE_LIST'], $_POST['tables'], $GLOBALS['TABLES_SKIP_COLS'], $_POST['fullsearch']);
+$report = DUPX_UpdateEngine::load($dbh, $GLOBALS['REPLACE_LIST'], $_POST['tables'], $_POST['fullsearch']);
 @mysqli_commit($dbh);
 @mysqli_autocommit($dbh, true);
 
@@ -1691,8 +1782,8 @@ $JSON['step2'] = $report;
 $JSON['step2']['warn_all'] = 0;
 $JSON['step2']['warnlist'] = array();
 
-DUPX_Serializer::log_stats($report);
-DUPX_Serializer::log_errors($report);
+DUPX_UpdateEngine::log_stats($report);
+DUPX_UpdateEngine::log_errors($report);
 
 //Reset the postguid data
 if ($_POST['postguid']) {
@@ -1801,7 +1892,7 @@ DUPX_Log::Info("\n--------------------------------------");
 DUPX_Log::Info("NOTICES");
 DUPX_Log::Info("--------------------------------------");
 $config_vars = array('WP_CONTENT_DIR', 'WP_CONTENT_URL', 'WPCACHEHOME', 'COOKIE_DOMAIN', 'WP_SITEURL', 'WP_HOME', 'WP_TEMP_DIR');
-$config_found = DupUtil::string_has_value($config_vars, $config_file);
+$config_found = DUPX_Util::string_has_value($config_vars, $config_file);
 
 //Files
 if ($config_found) {
@@ -1833,10 +1924,10 @@ mysqli_close($dbh);
 @unlink('database.sql');
 
 //CONFIG Setup
-DUPX_Config::Setup();
+DUPX_ServerConfig::Setup();
 
-$ajax2_end = DupUtil::get_microtime();
-$ajax2_sum = DupUtil::elapsed_time($ajax2_end, $ajax2_start);
+$ajax2_end = DUPX_Util::get_microtime();
+$ajax2_sum = DUPX_Util::elapsed_time($ajax2_end, $ajax2_start);
 DUPX_Log::Info("********************************************************************************");
 DUPX_Log::Info('STEP 2 COMPLETE @ ' . @date('h:i:s') . " - TOTAL RUNTIME: {$ajax2_sum}");
 DUPX_Log::Info("********************************************************************************");
@@ -1861,14 +1952,13 @@ die(json_encode($JSON));
 	<?php
 	// Exit if accessed directly
 	if (! defined('DUPLICATOR_INIT')) {
-		$_baseURL =  strlen($_SERVER['SERVER_NAME']) ? $_SERVER['SERVER_NAME'] : $_SERVER['HTTP_HOST'];
-		$_baseURL =  "http://" . $_baseURL;
+		$_baseURL = "http://" . strlen($_SERVER['SERVER_NAME']) ? $_SERVER['SERVER_NAME'] : $_SERVER['HTTP_HOST'];
 		header("HTTP/1.1 301 Moved Permanently");
 		header("Location: $_baseURL");
 		exit; 
 	}
 ?>
-<?php if( DupUtil::is_url_active("ajax.googleapis.com", 443) ): ?>
+<?php if( DUPX_Util::is_url_active("ajax.googleapis.com", 443) ): ?>
 	<link rel='stylesheet' href='//ajax.googleapis.com/ajax/libs/jqueryui/1.11.2/themes/smoothness/jquery-ui.css' type='text/css' media='all' />
 <?php else: ?>
 	<style type="text/css">
@@ -1884,8 +1974,7 @@ die(json_encode($JSON));
 	<?php
 	// Exit if accessed directly 
 	if (! defined('DUPLICATOR_INIT')) {
-		$_baseURL =  strlen($_SERVER['SERVER_NAME']) ? $_SERVER['SERVER_NAME'] :$_SERVER['HTTP_HOST'];
-		$_baseURL =  "http://" . $_baseURL;
+		$_baseURL = "http://" . strlen($_SERVER['SERVER_NAME']) ? $_SERVER['SERVER_NAME'] : $_SERVER['HTTP_HOST'];
 		header("HTTP/1.1 301 Moved Permanently");
 		header("Location:$_baseURL");
 		exit; 
@@ -1982,11 +2071,12 @@ die(json_encode($JSON));
 
 	/*Dialog*/
 	div#dup-step1-dialog-data {height:90%; font-size:11px; padding:5px; line-height:16px; }
-	td.dup-step1-dialog-data-details {padding:0px 0 0 30px; border-radius:4px; line-height:14px; font-size:11px; display:none}
+	td.dup-step1-dialog-data-details {padding:1px 0 10px 30px; border-radius:4px; line-height:14px; font-size:11px; display:none}
 	td.dup-step1-dialog-data-details b {width:50px;display:inline-block}
 	.dup-pass {display:inline-block; color:green;}
 	.dup-ok {display:inline-block; color:#5860C7;}
 	.dup-fail {display:inline-block; color:#AF0000;}
+	.dup-notice {display:inline-block; color:#000;}
 	hr.dup-dots { border:none; border-top:1px dotted silver; height:1px; width:100%;}
 	div.dup-ui-error {padding-top:2px; font-size:14px}
 	div.help {color:#555; font-style:italic; font-size:11px}
@@ -2074,8 +2164,7 @@ die(json_encode($JSON));
 	<?php
 	// Exit if accessed directly
 	if (! defined('DUPLICATOR_INIT')) {
-		$_baseURL =  strlen($_SERVER['SERVER_NAME']) ? $_SERVER['SERVER_NAME'] : $_SERVER['HTTP_HOST'];
-		$_baseURL =  "http://" . $_baseURL;
+		$_baseURL = "http://" . strlen($_SERVER['SERVER_NAME']) ? $_SERVER['SERVER_NAME'] : $_SERVER['HTTP_HOST'];
 		header("HTTP/1.1 301 Moved Permanently");
 		header("Location: $_baseURL");
 		exit; 
@@ -2083,7 +2172,7 @@ die(json_encode($JSON));
 ?>
 <!-- ========================================
 JQUERY ASSETS -->
-<?php if(DupUtil::is_url_active("ajax.googleapis.com", 443) ): ?>
+<?php if(DUPX_Util::is_url_active("ajax.googleapis.com", 443) ): ?>
 	<script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
 	<script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.11.2/jquery-ui.min.js"></script>
 <?php else: ?>
@@ -2104,7 +2193,7 @@ JQUERY ASSETS -->
 	
 <!-- ========================================
 KNOCKOUT ASSETS -->
-<?php if( DupUtil::is_url_active("ajax.aspnetcdn.com", 443) ): ?>
+<?php if( DUPX_Util::is_url_active("ajax.aspnetcdn.com", 443) ): ?>
 	<script src="//ajax.aspnetcdn.com/ajax/knockout/knockout-2.2.1.js"></script>
 <?php else: ?>
 	<script type="text/javascript">
@@ -2253,8 +2342,7 @@ function _toConsumableArray(e){if(Array.isArray(e)){for(var t=0,i=Array(e.length
 	<?php
 	// Exit if accessed directly
 	if (! defined('DUPLICATOR_INIT')) {
-		$_baseURL =  strlen($_SERVER['SERVER_NAME']) ? $_SERVER['SERVER_NAME'] : $_SERVER['HTTP_HOST'];
-		$_baseURL =  "http://" . $_baseURL;
+		$_baseURL = "http://" . strlen($_SERVER['SERVER_NAME']) ? $_SERVER['SERVER_NAME'] : $_SERVER['HTTP_HOST'];
 		header("HTTP/1.1 301 Moved Permanently");
 		header("Location: $_baseURL");
 		exit; 
@@ -2392,14 +2480,13 @@ switch ($_POST['action_step']) {
 	?> <?php
 	// Exit if accessed directly
 	if (! defined('DUPLICATOR_INIT')) {
-		$_baseURL =  strlen($_SERVER['SERVER_NAME']) ? $_SERVER['SERVER_NAME'] : $_SERVER['HTTP_HOST'];
-		$_baseURL =  "http://" . $_baseURL;
+		$_baseURL = "http://" . strlen($_SERVER['SERVER_NAME']) ? $_SERVER['SERVER_NAME'] : $_SERVER['HTTP_HOST'];
 		header("HTTP/1.1 301 Moved Permanently");
 		header("Location: $_baseURL");
 		exit; 
 	}
 	//DETECT ARCHIVE FILES
-	$zip_files = DupUtil::get_zip_files();
+	$zip_files = DUPX_Util::get_zip_files();
 	$zip_count = count($zip_files);
 	
 	if ($zip_count > 1) {
@@ -2708,7 +2795,7 @@ VIEW: STEP 1- INPUT -->
 		
 		
 		<div class="dup-step1-gopro">
-			*Create the database and users <b>from the installer</b> with <a target="_blank" href="https://snapcreek.com/?free-install-step1">Duplicator Pro!</a> - Requires cPanel.
+			*Create the database and users <b>from the installer</b> with <a target="_blank" href="https://snapcreek.com/duplicator/?utm_source=duplicator_free&utm_medium=wordpress_plugin&utm_content=free_install_step1&utm_campaign=duplicator_pro">Duplicator Pro!</a> - Requires cPanel.
 		</div>	
 
 		<!-- NOTICES  -->
@@ -2806,45 +2893,65 @@ PANEL: SERVER CHECKS  -->
 <div id="dup-step1-dialog" title="System Status" style="display:none">
 <div id="dup-step1-dialog-data" style="padding: 0px 10px 10px 10px;">
 	
-	<b>Archive Name:</b> <?php echo $zip_name; ?> <br/>
-	<b>Package Notes:</b> <?php echo empty($GLOBALS['FW_PACKAGE_NOTES']) ? 'No notes provided for this pakcage.' : $GLOBALS['FW_PACKAGE_NOTES']; ?><br/><br/>
-					
+	<div style="font-size:12px">
+		<b>Archive Name:</b> <?php echo $zip_name; ?> <br/>
+		<b>Package Notes:</b> <?php echo empty($GLOBALS['FW_PACKAGE_NOTES']) ? 'No notes provided for this pakcage.' : $GLOBALS['FW_PACKAGE_NOTES']; ?>
+	</div>
+	<br/>
+	
 	<!-- SYSTEM REQUIREMENTS -->
 	<b>REQUIREMENTS</b> &nbsp; <i style='font-size:11px'>click links for details</i>
 	<hr size="1"/>
+	
 	<table style="width:100%">
 	<tr>
-		<td style="width:300px"><a href="javascript:void(0)" onclick="$('#dup-SRV01').toggle(400)">Root Directory</a></td>
+		<td style="width:300px"><a href="javascript:void(0)" onclick="$('#dup-req-rootdir').toggle(200)">Root Directory</a></td>
 		<td class="<?php echo ($req01 == 'Pass') ? 'dup-pass' : 'dup-fail' ?>"><?php echo $req01; ?></td>
 	</tr>
 	<tr>
-		<td colspan="2" id="dup-SRV01" class='dup-step1-dialog-data-details'>
+		<td colspan="2" id="dup-req-rootdir" class='dup-step1-dialog-data-details'>
 		<?php
 		echo "<i>Path: {$GLOBALS['CURRENT_ROOT_PATH']} </i><br/>";
 		printf("<b>[%s]</b> %s <br/>", $req01a, "Is Writable by PHP");
-		printf("<b>[%s]</b> %s <br/>", $req01b, "Contains only one zip file<div style='padding-left:70px'>Result = {$zip_name} <br/> <i>Note: Manual extraction still requires the archive.zip file</i> </div> ");
+		printf("<b>[%s]</b> %s ", $req01b, "Contains only one zip file<div style='padding-left:70px'>Result = {$zip_name} <br/> <i>Note: Manual extraction still requires the archive.zip file</i> </div> ");
 		?>
 		</td>
 	</tr>
 	<tr>
-		<td><a href="http://us2.php.net/manual/en/mysqli.installation.php" target="_blank">MySQLi Support</a></td>
+		<td><a href="javascript:void(0)" onclick="$('#dup-req-mysqli').toggle(200)">MySQLi Support</a></td>
 		<td class="<?php echo ($req03 == 'Pass') ? 'dup-pass' : 'dup-fail' ?>"><?php echo $req03; ?></td>
 	</tr>	
 	<tr>
-		<td>Safe Mode Off</td>
+		<td colspan="2" id="dup-req-mysqli" class='dup-step1-dialog-data-details'>
+			The Duplicator needs the PHP mysqli extension installed to run properly.  This is a very common extension and can be easily installed by your
+			host or server administrator.  For more details see the <a href="http://us2.php.net/manual/en/mysqli.installation.php" target="_blank" >online overview</a>.
+		</td>
+	</tr>
+	<tr>
+		<td><a href="javascript:void(0)" onclick="$('#dup-req-safemode').toggle(200)">Safe Mode Off</a></td>
 		<td class="<?php echo ($req02 == 'Pass') ? 'dup-pass' : 'dup-fail' ?>"><?php echo $req02; ?></td>
 	</tr>
 	<tr>
-		<td valign="top">
-		PHP Version: <?php echo phpversion(); ?><br/>
-		<i style="font-size:10px">(PHP 5.2.9+ is required)</i>
+		<td colspan="2" id="dup-req-safemode" class='dup-step1-dialog-data-details'>
+			The Duplicator requires that PHP safe mode be turned off.  Safe mode is a very uncommon setting and can be easily turned off by your
+			host or server administrator.  For more details see the <a href="http://php.net/manual/en/features.safe-mode.php" target="_blank" >online overview</a>.
 		</td>
+	</tr>	
+	<tr>
+		<td valign="top"><a href="javascript:void(0)" onclick="$('#dup-req-phpver').toggle(200)">PHP Version</a> </td>
 		<td class="<?php echo ($req04 == 'Pass') ? 'dup-pass' : 'dup-fail' ?>"><?php echo $req04; ?> </td>
 	</tr>
+	<tr>
+		<td colspan="2" id="dup-req-phpver" class='dup-step1-dialog-data-details'>
+			This server is currently running PHP version: <b><?php echo phpversion(); ?></b>. The Duplicator requires a version of 5.2.9+ or better. 
+			To upgrade your PHP version contact your host or server administrator.  
+		</td>
+	</tr>		
 	</table>
+	<br/>
 
 	<!-- SYSTEM CHECKS -->
-	<b>CHECKS</b><hr style='margin-top:-2px' size="1"/>
+	<b>CHECKS</b><hr  size="1"/>
 	<table style="width:100%">
 	<tr>
 		<td style="width:300px"></td>
@@ -2873,8 +2980,8 @@ PANEL: SERVER CHECKS  -->
 	</tr>
 	<tr>
 		<?php
-		$open_basedir_set = ini_get("open_basedir");
-		if (empty($open_basedir_set)):
+			$open_basedir_set = ini_get("open_basedir");
+			if (empty($open_basedir_set)):
 		?>
 			<td><b>Open Base Dir:</b> Off
 			<td><div class='dup-pass'>Good</div>
@@ -2887,9 +2994,11 @@ PANEL: SERVER CHECKS  -->
 
 	<hr class='dup-dots' />
 	<!-- SAPI -->
+	<b>PHP MAX MEMORY:</b> <?php echo @ini_get('memory_limit') ?><br/>
 	<b>PHP SAPI:</b>  <?php echo php_sapi_name(); ?><br/>
 	<b>PHP ZIP Archive:</b> <?php echo class_exists('ZipArchive') ? 'Is Installed' : 'Not Installed'; ?> <br/>
-	<b>CDN Accessible:</b> <?php echo ( DupUtil::is_url_active("ajax.aspnetcdn.com", 443) && DupUtil::is_url_active("ajax.googleapis.com", 443)) ? 'Yes' : 'No'; ?> <br/>
+	<b>CDN Accessible:</b> <?php echo ( DUPX_Util::is_url_active("ajax.aspnetcdn.com", 443) && DUPX_Util::is_url_active("ajax.googleapis.com", 443)) ? 'Yes' : 'No'; ?> 
+	<br/><br/>
 	Need an <a href='http://lifeinthegrid.com/duplicator-hosts' target='_blank'>approved</a> Duplicator hosting provider?
 
 </div>
@@ -2903,21 +3012,20 @@ PANEL: SERVER CHECKS  -->
 	?> <?php
 	// Exit if accessed directly
 	if (! defined('DUPLICATOR_INIT')) {
-		$_baseURL =  strlen($_SERVER['SERVER_NAME']) ? $_SERVER['SERVER_NAME'] : $_SERVER['HTTP_HOST'];
-		$_baseURL =  "http://" . $_baseURL;
+		$_baseURL = "http://" . strlen($_SERVER['SERVER_NAME']) ? $_SERVER['SERVER_NAME'] : $_SERVER['HTTP_HOST'];;
 		header("HTTP/1.1 301 Moved Permanently");
 		header("Location: $_baseURL");
 		exit; 
 	}
-	$dbh = DupUtil::db_connect($_POST['dbhost'], $_POST['dbuser'], $_POST['dbpass'], $_POST['dbname'], $_POST['dbport']);
+	$dbh = DUPX_Util::db_connect($_POST['dbhost'], $_POST['dbuser'], $_POST['dbpass'], $_POST['dbname'], $_POST['dbport']);
 
-	$all_tables     = DupUtil::get_database_tables($dbh);
-	$active_plugins = DupUtil::get_active_plugins($dbh);
+	$all_tables     = DUPX_Util::get_database_tables($dbh);
+	$active_plugins = DUPX_Util::get_active_plugins($dbh);
 	
 
 	$old_path = $GLOBALS['FW_WPROOT'];
-	$new_path = DupUtil::set_safe_path($GLOBALS['CURRENT_ROOT_PATH']);
-	$new_path = ((strrpos($old_path, '/') + 1) == strlen($old_path)) ? DupUtil::add_slash($new_path) : $new_path; 
+	$new_path = DUPX_Util::set_safe_path($GLOBALS['CURRENT_ROOT_PATH']);
+	$new_path = ((strrpos($old_path, '/') + 1) == strlen($old_path)) ? DUPX_Util::add_slash($new_path) : $new_path; 
 ?>
 
 <script type="text/javascript">
@@ -3127,7 +3235,7 @@ VIEW: STEP 2- INPUT -->
 					<select id="tables" name="tables[]" multiple="multiple" style="width:315px; height:100px">
 						<?php
 						foreach( $all_tables as $table ) {
-							echo '<option selected="selected" value="' . DupUtil::esc_html_attr( $table ) . '">' . $table . '</option>';
+							echo '<option selected="selected" value="' . DUPX_Util::esc_html_attr( $table ) . '">' . $table . '</option>';
 						} 
 						?>
 					</select>
@@ -3142,7 +3250,7 @@ VIEW: STEP 2- INPUT -->
 					<select id="plugins" name="plugins[]" multiple="multiple" style="width:315px; height:100px">
 						<?php
 						foreach ($active_plugins as $plugin) {
-							echo '<option selected="selected" value="' . DupUtil::esc_html_attr( $plugin ) . '">' . dirname($plugin) . '</option>';
+							echo '<option selected="selected" value="' . DUPX_Util::esc_html_attr( $plugin ) . '">' . dirname($plugin) . '</option>';
 						} 
 						?>
 					</select>
@@ -3205,8 +3313,7 @@ VIEW: STEP 2 - AJAX RESULT  -->
 	?> <?php
 	// Exit if accessed directly
 	if (! defined('DUPLICATOR_INIT')) {
-		$_baseURL =  strlen($_SERVER['SERVER_NAME']) ? $_SERVER['SERVER_NAME'] : $_SERVER['HTTP_HOST'];
-		$_baseURL =  "http://" . $_baseURL;
+		$_baseURL = "http://" . strlen($_SERVER['SERVER_NAME']) ? $_SERVER['SERVER_NAME'] : $_SERVER['HTTP_HOST'];
 		header("HTTP/1.1 301 Moved Permanently");
 		header("Location: $_baseURL");
 		exit; 
@@ -3409,21 +3516,21 @@ VIEW: STEP 3- INPUT -->
 		$num = rand(1,2);  
 		switch ($num) {
 			case 1: 
-				$key = 'free-inst-s3btn1';
+				$key = 'free_inst_s3btn1';
 				$txt = 'Want More Power?';
 				break;
 			case 2: 
-				$key = 'free-inst-s3btn2';
+				$key = 'free_inst_s3btn2';
 				$txt = 'Go Pro Today!';
 				break;	
 			default :
-				$key = 'free-inst-s3btn2';
+				$key = 'free_inst_s3btn2';
 				$txt = 'Go Pro Today!';
 		}
 	?>
 	
 	<div class="s3-gopro-btn">
-		<a style="width:100%" class="s3-final-btns" href="https://snapcreek.com/duplicator/comparison?<?php echo $key;?>" target="_blank">&#10097;&#10097; <?php echo $txt;?></a> 
+		<a style="width:100%" class="s3-final-btns" href="https://snapcreek.com/duplicator/?utm_source=duplicator_free&utm_medium=wordpress_plugin&utm_campaign=duplicator_pro&utm_content="<?php echo $key;?>" target="_blank">&#10097;&#10097; <?php echo $txt;?></a> 
 	</div>
 	<br/><br/>
 		
@@ -3452,8 +3559,7 @@ VIEW: STEP 3- INPUT -->
 	?> <?php
 	// Exit if accessed directly
 	if (! defined('DUPLICATOR_INIT')) {
-		$_baseURL =  strlen($_SERVER['SERVER_NAME']) ? $_SERVER['SERVER_NAME'] : $_SERVER['HTTP_HOST'];
-		$_baseURL =  "http://" . $_baseURL;
+		$_baseURL = "http://" . strlen($_SERVER['SERVER_NAME']) ? $_SERVER['SERVER_NAME'] : $_SERVER['HTTP_HOST'];
 		header("HTTP/1.1 301 Moved Permanently");
 		header("Location: $_baseURL");
 		exit; 
